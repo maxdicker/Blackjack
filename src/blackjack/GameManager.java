@@ -1,40 +1,23 @@
 package blackjack;
 
-import java.util.Scanner;
-
 public class GameManager {
+    private final static int highestScore = 21;
     private static Deck deck = new Deck();
 
     public static void play() {
         deck.shuffle();
-        Scanner scanner = new Scanner(System.in);
 
         Player player = new Player();
-        Player dealer = new Player();
+        Dealer dealer = new Dealer();
         dealInitialCards(player);
         dealInitialCards(dealer);
 
-        printScore(dealer);
+        takeTurn(player);
 
-        while (player.getScore() <= 21) {
-            printScore(player);
-            System.out.println("Hit or stay? (Hit = 1, Stay = 0)");
-            String decision = scanner.nextLine();
+        dealer.printScore();
+        takeTurn(dealer);
 
-            if (decision.equals("1")) {
-                hit(player);
-            } else if (decision.equals("0")) {
-                break;
-            } else {
-                System.out.println("Invalid input. Try again");
-            }
-        }
-
-        while (dealer.getScore() < 17) {
-            hit(dealer);
-        }
-
-
+        checkWinner(dealer, player);
     }
 
     private static void dealInitialCards (Player player) {
@@ -48,8 +31,37 @@ public class GameManager {
         System.out.println("You draw " + draw);
     }
 
-    private static void printScore(Player player) {
-        System.out.println("You are currently at " + player.getScore());
+    private static void takeTurn(Player player) {
+        if (player.getScore() == highestScore) {
+            System.out.println("Blackjack!");
+        } else {
+            player.printScore();
+            player.printHand();
+            while (player.checkHit()) {
+                hit(player);
+                checkBust(player);
+            }
+        }
+
     }
 
+    private static void checkWinner(Player player1, Player player2) {
+        if (player1.getScore() > player2.getScore()) {
+            player1.printWinMessage();
+        } else if (player1.getScore() < player2.getScore()) {
+            player2.printWinMessage();
+        } else {
+            System.out.println("It's a tie!");
+        }
+    }
+
+    private static void checkBust(Player player) {
+        if (player.getScore() > highestScore) {
+            player.refreshScore();
+
+            if (player.getScore() > highestScore) {
+                System.out.println("Bust!");
+            }
+        }
+    }
 }

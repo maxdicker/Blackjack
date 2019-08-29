@@ -1,28 +1,43 @@
 package blackjack;
 
+import blackjackTester.CardTester;
 import blackjackTester.DeckTester;
 import blackjackTester.PlayerTester;
 
 public class Main {
 
     public static void main(String[] args) {
-//      blackjack.GameManager.play();
+        blackjack.GameManager.play();
 
-        runDeckTests();
-        runPlayerTests();
+//        runDeckTests();
+//        runPlayerTests();
+//        runCardTests();
     }
 
-    private static void runDeckTests() {
+    private static Card firstCard = new Card(Card.Suit.SPADES, Card.Rank.TWO);
+
+    private static Card[] initCards() {
         var card1 = new Card(Card.Suit.SPADES, Card.Rank.TWO);
         var card2 = new Card(Card.Suit.SPADES, Card.Rank.THREE);
         var card3 = new Card(Card.Suit.SPADES, Card.Rank.FOUR);
 
         Card[] testCards = {card1, card2, card3};
-        var testDeck = new Deck(testCards);
-        var tester = new DeckTester(testDeck);
+        return testCards;
+    }
 
-        tester.testDealReturnsNextCard(card1);
+    private static Deck initDeck() {
+        Deck testDeck = new Deck(initCards());
+        return testDeck;
+    }
+
+    private static void runDeckTests() {
+        var tester = new DeckTester(initDeck());
+
         tester.testDealRejectsExhaustedDeck(3);
+
+        tester = new DeckTester(initDeck());
+
+        tester.testDealReturnsNextCard(firstCard);
     }
 
     private static void runPlayerTests() {
@@ -33,6 +48,13 @@ public class Main {
         var tester = new PlayerTester(testPlayer);
 
         tester.testAddUpdatesScore(new Card(Card.Suit.SPADES, Card.Rank.KING), 10);
+    }
+
+    private static void runCardTests() {
+        var testCard = new CardTester(firstCard);
+
+        testCard.testCardIsEqual(new Card(Card.Suit.SPADES, Card.Rank.TWO));
+
     }
 }
 

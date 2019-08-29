@@ -38,13 +38,13 @@ public final class DeckTester {
     }
 
     public void testDealRejectsExhaustedDeck(int deckSize) {
-        for (int i= 1; i < deckSize; i++) {
+        for (int i= 1; i <= deckSize; i++) {
             _deck.deal();
         }
         try {
             _deck.deal();
             System.out.println("FAIL: Deal can take an exhausted deck");
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             System.out.println("Pass: Deal rejects an exhausted deck");
         }
     }
