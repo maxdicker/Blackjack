@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Player {
     private ArrayList<Card> hand;
     private int score;
+    private boolean showHits = true;
 
     public Player() {
         hand = new ArrayList<>();
@@ -17,24 +18,39 @@ public class Player {
         score += card.getValue();
     }
 
+    public boolean isShowingHits() { return showHits; }
+
+    public void setShowHits(boolean showHits) {
+        this.showHits = showHits;
+    }
+
     public int getScore() {
         return score;
     }
 
-    public void printScore() {
-        System.out.println("You are currently at " + getScore());
+    public int numCardsInHand() {
+        return hand.size();
     }
 
-    public void printHand() {
+    public void printScore() {
+        System.out.println("You are currently at " + getScore());
+        printHand();
+    }
+
+    void printHand() {
         System.out.print("with the hand ");
         hand.forEach(System.out::print);
         System.out.println();
     }
 
+    public String drawPrefix() {
+        return "You draw ";
+    }
+
     public void refreshScore() {
         for (Card card : hand) {
             if (card.getRank() == Card.Rank.ACE && card.getValue() > 1) {
-                card.changeValue(1);
+                card.setValue(1);
                 score -= 10;
             }
         }
@@ -42,6 +58,10 @@ public class Player {
 
     public void printWinMessage() {
         System.out.println("You beat the dealer!");
+    }
+
+    public void printLoseMessage() {
+        System.out.println("Dealer wins!");
     }
 
     public boolean checkHit() {

@@ -11,6 +11,7 @@ public final class PlayerTester {
     }
 
     public void testAddUpdatesScore(Card card, int expectedIncrease) {
+        System.out.println("--testAddUpdatesScore--");
         int startingScore = _player.getScore();
         _player.addToHand(card);
         int finalScore = _player.getScore();

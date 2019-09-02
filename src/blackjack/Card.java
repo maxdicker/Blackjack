@@ -1,18 +1,6 @@
 package blackjack;
 
-public class Card implements Comparable {
-
-//    public boolean isBlack() {
-//        return suit.colour.equals("Black");
-//    }
-
-    @Override
-    public int compareTo(Object o) {
-        if (o instanceof Card) {
-            return 1;
-        }
-        return 0;
-    }
+public class Card {
 
     public enum Suit {SPADES ("Black"), CLUBS ("Black"), DIAMONDS ("Red"), HEARTS ("Red");
         private String colour;
@@ -65,12 +53,12 @@ public class Card implements Comparable {
         return rank;
     }
 
-    public void changeValue(int newValue) {
+    public void setValue(int newValue) {
         value = newValue;
     }
 
-    //public boolean equals(Card card) {
-    //    return this.rank == card.rank && this.suit == card.suit;
-    //}
+    public boolean equals(Card card) {
+        return this.rank == card.rank && this.suit == card.suit;
+    }
 
 }

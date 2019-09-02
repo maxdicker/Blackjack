@@ -29,6 +29,7 @@ public final class DeckTester {
 //    }
 
     public void testDealReturnsNextCard(Card nextCard) {
+        System.out.println("--testDealReturnsNextCard--");
         Card dealtCard = _deck.deal();
         if (dealtCard.equals(nextCard)) {
             System.out.println("Pass: Deal returns the next card in deck");
@@ -38,14 +39,15 @@ public final class DeckTester {
     }
 
     public void testDealRejectsExhaustedDeck(int deckSize) {
+        System.out.println("--testDealRejectsExhaustedDeck--");
         for (int i= 1; i <= deckSize; i++) {
             _deck.deal();
         }
         try {
             _deck.deal();
-            System.out.println("FAIL: Deal can take an exhausted deck");
+            System.out.println("FAIL: Deal does not throw exception on exhausted deck");
         } catch (IllegalStateException e) {
-            System.out.println("Pass: Deal rejects an exhausted deck");
+            System.out.println("Pass: Deal throws exception on exhausted deck");
         }
     }
 }

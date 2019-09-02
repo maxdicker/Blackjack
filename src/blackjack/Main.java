@@ -2,13 +2,20 @@ package blackjack;
 
 import blackjackTester.CardTester;
 import blackjackTester.DeckTester;
+import blackjackTester.GameManagerTester;
 import blackjackTester.PlayerTester;
 
 public class Main {
 
     public static void main(String[] args) {
-        blackjack.GameManager.play();
+        Player[] players = {new Player(), new Dealer()};
+        Deck deck = new Deck();
+        deck.shuffle();
 
+        GameManager g = new GameManager(deck, players);
+        g.play();
+
+//        runGameTests();
 //        runDeckTests();
 //        runPlayerTests();
 //        runCardTests();
@@ -51,10 +58,24 @@ public class Main {
     }
 
     private static void runCardTests() {
-        var testCard = new CardTester(firstCard);
+        var tester = new CardTester();
+        final Card twoOfSpades = new Card(Card.Suit.SPADES, Card.Rank.TWO);
+        final Card threeOfClubs = new Card(Card.Suit.CLUBS, Card.Rank.THREE);
 
-        testCard.testCardIsEqual(new Card(Card.Suit.SPADES, Card.Rank.TWO));
+        tester.testCardIsEqual(twoOfSpades, new Card(Card.Suit.SPADES, Card.Rank.TWO));
+        tester.testCardIsEqual(twoOfSpades, twoOfSpades);
+        tester.testCardIsNotEqual(twoOfSpades, threeOfClubs);
+    }
 
+    private static void runGameTests() {
+        var testDeck = initDeck();
+        var manager = new GameManager(testDeck, new Player[] {new Player()});
+        var tester = new GameManagerTester(manager);
+        var testPlayer = new Player();
+
+        tester.testHit(testDeck, testPlayer);
+
+        testPlayer = new Player();
     }
 }
 
