@@ -73,8 +73,8 @@ public class Main {
         var tester = new GameManagerTester(manager);
         var testPlayer = new Player();
 
-        tester.testHitIncreasesPlayersHandSize(testDeck, testPlayer);
-        tester.testHitReducesDeckSize(testDeck, testPlayer);
+        tester.testHitIncreasesPlayersHandSize();
+        tester.testHitReducesDeckSize();
 
         testPlayer = new Player();
     }

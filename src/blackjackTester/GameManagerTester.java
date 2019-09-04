@@ -1,5 +1,6 @@
 package blackjackTester;
 
+import blackjack.Card;
 import blackjack.Deck;
 import blackjack.GameManager;
 import blackjack.Player;
@@ -21,7 +22,9 @@ public final class GameManagerTester {
         // assert that player 1 has busted
     }
 
-    public void testHitIncreasesPlayersHandSize(Deck deck, Player player) {
+    public void testHitIncreasesPlayersHandSize() {
+        Player player = new Player();
+        Deck deck = new Deck(new Card[] {new Card(Card.Suit.SPADES, Card.Rank.ACE), new Card(Card.Suit.SPADES, Card.Rank.TWO)});
         System.out.println("--testHitIncreasesPlayersHandSize--");
         _gameManager.hit(deck, player);
         _gameManager.hit(deck, player);
@@ -34,11 +37,18 @@ public final class GameManagerTester {
 
     }
 
-    public void testHitReducesDeckSize(Deck deck, Player player) {
+    public void testHitReducesDeckSize() {
+        // arrange
+        Player player = new Player();
+        Deck deck = new Deck(new Card[] {new Card(Card.Suit.SPADES, Card.Rank.ACE), new Card(Card.Suit.SPADES, Card.Rank.TWO)});
         System.out.println("--testHitReducesDeckSize--");
-        int startDeckSize = _gameManager.getDeck().numberOfCards();
+        int startDeckSize = deck.numberOfCards();
+
+        // act
         _gameManager.hit(deck, player);
-        int endDeckSize = _gameManager.getDeck().numberOfCards();
+
+        // assert
+        int endDeckSize = deck.numberOfCards();
 
         if (endDeckSize == startDeckSize - 1) {
             System.out.println("Pass: hit reduces deck size");
