@@ -6,13 +6,8 @@ import blackjack.GameManager;
 import blackjack.Player;
 
 public final class GameManagerTester {
-    private final GameManager _gameManager;
 
-    public GameManagerTester(GameManager gameManager) {
-        _gameManager = gameManager;
-    }
-
-    private void assertTrue(Boolean condition, String expectation) {
+    private static void assertTrue(Boolean condition, String expectation) {
         if (condition) {
             System.out.println("Pass: " + expectation);
         } else {
@@ -30,26 +25,34 @@ public final class GameManagerTester {
         // assert that player 1 has busted
     }
 
-    public void testHitIncreasesPlayersHandSize() {
+    public static void testHitIncreasesPlayersHandSize() {
         Player player = new Player();
-        Deck deck = new Deck(new Card[] {new Card(Card.Suit.SPADES, Card.Rank.ACE), new Card(Card.Suit.SPADES, Card.Rank.TWO)});
+        Deck deck = new Deck(new Card[] {
+                new Card(Card.Suit.SPADES, Card.Rank.ACE),
+                new Card(Card.Suit.SPADES, Card.Rank.TWO)
+                });
+        GameManager manager = new GameManager(deck, new Player[] {player});
         System.out.println("--testHitIncreasesPlayersHandSize--");
-        _gameManager.hit(deck, player);
-        _gameManager.hit(deck, player);
+
+        manager.hit(deck, player);
+        manager.hit(deck, player);
 
         assertTrue(player.numCardsInHand() == 2, "hit increases players hand size");
-
     }
 
-    public void testHitReducesDeckSize() {
+    public static void testHitReducesDeckSize() {
         // arrange
         Player player = new Player();
-        Deck deck = new Deck(new Card[] {new Card(Card.Suit.SPADES, Card.Rank.ACE), new Card(Card.Suit.SPADES, Card.Rank.TWO)});
+        Deck deck = new Deck(new Card[] {
+                new Card(Card.Suit.SPADES, Card.Rank.ACE),
+                new Card(Card.Suit.SPADES, Card.Rank.TWO)
+                });
+        GameManager manager = new GameManager(deck, new Player[] {player});
         System.out.println("--testHitReducesDeckSize--");
         int startDeckSize = deck.numberOfCards();
 
         // act
-        _gameManager.hit(deck, player);
+        manager.hit(deck, player);
 
         // assert
         int endDeckSize = deck.numberOfCards();

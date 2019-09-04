@@ -68,15 +68,10 @@ public class Main {
     }
 
     private static void runGameTests() {
-        var testDeck = initDeck();
-        var manager = new GameManager(testDeck, new Player[] {new Player()});
-        var tester = new GameManagerTester(manager);
-        var testPlayer = new Player();
 
-        tester.testHitIncreasesPlayersHandSize();
-        tester.testHitReducesDeckSize();
+        GameManagerTester.testHitIncreasesPlayersHandSize();
+        GameManagerTester.testHitReducesDeckSize();
 
-        testPlayer = new Player();
     }
 }
 
