@@ -12,6 +12,14 @@ public final class GameManagerTester {
         _gameManager = gameManager;
     }
 
+    private void assertTrue(Boolean condition, String expectation) {
+        if (condition) {
+            System.out.println("Pass: " + expectation);
+        } else {
+            System.out.println("FAIL: " + expectation);
+        }
+    }
+
     public void testCantKeepHitting(Player player) {
         //GameManager.play();
 
@@ -29,11 +37,7 @@ public final class GameManagerTester {
         _gameManager.hit(deck, player);
         _gameManager.hit(deck, player);
 
-        if (player.numCardsInHand() == 2) {
-            System.out.println("Pass: hit increases players hand size");
-        } else {
-            System.out.println("FAIL: hit does not increase players hand size properly");
-        }
+        assertTrue(player.numCardsInHand() == 2, "hit increases players hand size");
 
     }
 
@@ -50,11 +54,7 @@ public final class GameManagerTester {
         // assert
         int endDeckSize = deck.numberOfCards();
 
-        if (endDeckSize == startDeckSize - 1) {
-            System.out.println("Pass: hit reduces deck size");
-        } else {
-            System.out.println("FAIL: hit does not reduce deck size");
-        }
+        assertTrue(endDeckSize == startDeckSize - 1, "hit reduces deck size");
 
     }
 
