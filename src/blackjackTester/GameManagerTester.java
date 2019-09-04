@@ -21,19 +21,24 @@ public final class GameManagerTester {
         // assert that player 1 has busted
     }
 
-    public void testHit(Deck deck, Player player) {
-        System.out.println("--testHit--");
+    public void testHitIncreasesPlayersHandSize(Deck deck, Player player) {
+        System.out.println("--testHitIncreasesPlayersHandSize--");
         _gameManager.hit(deck, player);
         _gameManager.hit(deck, player);
-        int startDeckSize = _gameManager.getDeck().numberOfCards();
-        _gameManager.hit(deck, player);
-        int endDeckSize = _gameManager.getDeck().numberOfCards();
 
-        if (player.numCardsInHand() == 3) {
+        if (player.numCardsInHand() == 2) {
             System.out.println("Pass: hit increases players hand size");
         } else {
             System.out.println("FAIL: hit does not increase players hand size properly");
         }
+
+    }
+
+    public void testHitReducesDeckSize(Deck deck, Player player) {
+        System.out.println("--testHitReducesDeckSize--");
+        int startDeckSize = _gameManager.getDeck().numberOfCards();
+        _gameManager.hit(deck, player);
+        int endDeckSize = _gameManager.getDeck().numberOfCards();
 
         if (endDeckSize == startDeckSize - 1) {
             System.out.println("Pass: hit reduces deck size");

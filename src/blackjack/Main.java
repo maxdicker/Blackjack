@@ -12,13 +12,13 @@ public class Main {
         Deck deck = new Deck();
         deck.shuffle();
 
-        GameManager g = new GameManager(deck, players);
-        g.play();
+//        GameManager g = new GameManager(deck, players);
+//        g.play();
 
-//        runGameTests();
-//        runDeckTests();
-//        runPlayerTests();
-//        runCardTests();
+        runGameTests();
+        runDeckTests();
+        runPlayerTests();
+        runCardTests();
     }
 
     private static Card firstCard = new Card(Card.Suit.SPADES, Card.Rank.TWO);
@@ -73,7 +73,8 @@ public class Main {
         var tester = new GameManagerTester(manager);
         var testPlayer = new Player();
 
-        tester.testHit(testDeck, testPlayer);
+        tester.testHitIncreasesPlayersHandSize(testDeck, testPlayer);
+        tester.testHitReducesDeckSize(testDeck, testPlayer);
 
         testPlayer = new Player();
     }
