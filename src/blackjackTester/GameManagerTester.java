@@ -1,13 +1,10 @@
 package blackjackTester;
 
-import blackjack.Card;
-import blackjack.Deck;
-import blackjack.GameManager;
-import blackjack.Player;
+import blackjack.*;
 
 public final class GameManagerTester {
 
-    private static void assertTrue(Boolean condition, String expectation) {
+    private void assertTrue(Boolean condition, String expectation) {
         if (condition) {
             System.out.println("Pass: " + expectation);
         } else {
@@ -25,13 +22,13 @@ public final class GameManagerTester {
         // assert that player 1 has busted
     }
 
-    public static void testHitIncreasesPlayersHandSize() {
+    public void testHitIncreasesPlayersHandSize() {
         Player player = new Player();
         Deck deck = new Deck(new Card[] {
                 new Card(Card.Suit.SPADES, Card.Rank.ACE),
                 new Card(Card.Suit.SPADES, Card.Rank.TWO)
                 });
-        GameManager manager = new GameManager(deck, new Player[] {player});
+        GameManager manager = new GameManager(deck, new Player[] {player}, new Dealer());
         System.out.println("--testHitIncreasesPlayersHandSize--");
 
         manager.hit(deck, player);
@@ -40,14 +37,14 @@ public final class GameManagerTester {
         assertTrue(player.numCardsInHand() == 2, "hit increases players hand size");
     }
 
-    public static void testHitReducesDeckSize() {
+    public void testHitReducesDeckSize() {
         // arrange
         Player player = new Player();
         Deck deck = new Deck(new Card[] {
                 new Card(Card.Suit.SPADES, Card.Rank.ACE),
                 new Card(Card.Suit.SPADES, Card.Rank.TWO)
                 });
-        GameManager manager = new GameManager(deck, new Player[] {player});
+        GameManager manager = new GameManager(deck, new Player[] {player}, new Dealer());
         System.out.println("--testHitReducesDeckSize--");
         int startDeckSize = deck.numberOfCards();
 
@@ -58,14 +55,21 @@ public final class GameManagerTester {
         int endDeckSize = deck.numberOfCards();
 
         assertTrue(endDeckSize == startDeckSize - 1, "hit reduces deck size");
-
     }
 
-    public void testThatBustedPlayerCannotPlay() {
-        // create game where player 1's score is 22 and dealer is 10
-        // do next game step
-        // assert player has lost
-        // assert dealer has won
+    public void testThatBustedPlayerLoses() {
+        Deck deck = new Deck(new Card[] {});
+        Player player = new Player();
+        Dealer dealer = new Dealer();
+        player.addToHand(new Card(Card.Suit.SPADES, Card.Rank.TEN));
+        player.addToHand(new Card(Card.Suit.SPADES, Card.Rank.TEN));
+        player.addToHand(new Card(Card.Suit.SPADES, Card.Rank.TWO));
+        dealer.addToHand(new Card(Card.Suit.SPADES, Card.Rank.KING));
+        System.out.println("--testThatBustedPlayerLoses--");
+
+        GameManager manager = new GameManager(deck, new Player[] {player}, dealer);
+
+        assertTrue(manager.getWinners().equals(dealer), "dealer should win");
     }
 
 }

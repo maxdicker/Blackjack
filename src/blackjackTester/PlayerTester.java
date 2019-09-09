@@ -4,22 +4,24 @@ import blackjack.Card;
 import blackjack.Player;
 
 public final class PlayerTester {
-    private final Player _player;
 
-    public PlayerTester(Player player) {
-        _player = player;
+    private void assertTrue(Boolean condition, String expectation) {
+        if (condition) {
+            System.out.println("Pass: " + expectation);
+        } else {
+            System.out.println("FAIL: " + expectation);
+        }
     }
 
-    public void testAddUpdatesScore(Card card, int expectedIncrease) {
+    public void testAddUpdatesScore() {
+        Player player = new Player();
+        player.addToHand(new Card(Card.Suit.SPADES, Card.Rank.KING));
+        int startingScore = player.getScore();
         System.out.println("--testAddUpdatesScore--");
-        int startingScore = _player.getScore();
-        _player.addToHand(card);
-        int finalScore = _player.getScore();
 
-        if (finalScore == startingScore + expectedIncrease) {
-            System.out.println("Pass: Add updates player's score");
-        } else {
-            System.out.println("FAIL: Add does not update player's score");
-        }
+        player.addToHand(new Card(Card.Suit.SPADES, Card.Rank.NINE));
+        int finalScore = player.getScore();
+
+        assertTrue(finalScore == startingScore + 9, "add to hand updates player's score");
     }
 }

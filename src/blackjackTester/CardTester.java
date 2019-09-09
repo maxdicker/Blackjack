@@ -4,24 +4,27 @@ import blackjack.Card;
 
 public final class CardTester {
 
-    public CardTester() {
+    private void assertTrue(Boolean condition, String expectation) {
+        if (condition) {
+            System.out.println("Pass: " + expectation);
+        } else {
+            System.out.println("FAIL: " + expectation);
+        }
     }
 
-    public void testCardIsEqual (Card card, Card anotherCard) {
+    public void testCardIsEqual () {
+        Card card = new Card(Card.Suit.SPADES, Card.Rank.TWO);
+        Card sameCard = new Card(Card.Suit.SPADES, Card.Rank.TWO);
         System.out.println("--testCardIsEqual--");
-        if (card.equals(anotherCard)) {
-            System.out.println("Pass: Card is the same");
-        } else {
-            System.out.println("FAIL: Card is not the same");
-        }
+
+        assertTrue(card.equals(sameCard), "card is the same");
     }
 
-    public void testCardIsNotEqual(Card card, Card anotherCard) {
+    public void testCardIsNotEqual() {
+        Card card = new Card(Card.Suit.SPADES, Card.Rank.TWO);
+        Card differentCard = new Card(Card.Suit.CLUBS, Card.Rank.THREE);
         System.out.println("--testCardIsNotEqual--");
-        if (card.equals(anotherCard)) {
-            System.out.println("FAIL: Card is the same");
-        } else {
-            System.out.println("Pass: Card is not the same");
-        }
+
+        assertTrue(!card.equals(differentCard), "card is not the same");
     }
 }

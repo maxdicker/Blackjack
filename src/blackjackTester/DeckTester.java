@@ -4,47 +4,43 @@ import blackjack.Card;
 import blackjack.Deck;
 
 public final class DeckTester {
-    private final Deck _deck;
 
-    public DeckTester(Deck deck) {
-        _deck = deck;
-    }
-
-//    public DeckTester(String configuration) {
-//        cards = new ArrayList<>();
-//        switch (configuration) {
-//            case "empty":
-//                break;
-//            case "singleSuit":
-//                for (Card.Rank rank : Card.Rank.values()) {
-//                    cards.add(new Card(Card.Suit.SPADES, rank));
-//                }
-//                break;
-//            case "aces":
-//                for (Card.Suit suit : Card.Suit.values()) {
-//                    cards.add(new Card(suit, Card.Rank.ACE));
-//                }
-//                break;
-//        }
-//    }
-
-    public void testDealReturnsNextCard(Card nextCard) {
-        System.out.println("--testDealReturnsNextCard--");
-        Card dealtCard = _deck.deal();
-        if (dealtCard.equals(nextCard)) {
-            System.out.println("Pass: Deal returns the next card in deck");
+    private void assertTrue(Boolean condition, String expectation) {
+        if (condition) {
+            System.out.println("Pass: " + expectation);
         } else {
-            System.out.println("FAIL: Deal doesn't return the next card in deck");
+            System.out.println("FAIL: " + expectation);
         }
     }
 
-    public void testDealRejectsExhaustedDeck(int deckSize) {
+    public void testDealReturnsNextCard() {
+        Card aceOfSpades = new Card(Card.Suit.SPADES, Card.Rank.ACE);
+        Deck deck = new Deck(new Card[] {
+                new Card(Card.Suit.SPADES, Card.Rank.ACE),
+                new Card(Card.Suit.SPADES, Card.Rank.TWO)
+        });
+        System.out.println("--testDealReturnsNextCard--");
+
+        Card dealtCard = deck.deal();
+
+        assertTrue(dealtCard.equals(aceOfSpades), "deal returns next card in deck");
+    }
+
+    public void testDealRejectsExhaustedDeck() {
+        Deck deck = new Deck(new Card[] {
+                new Card(Card.Suit.SPADES, Card.Rank.ACE),
+                new Card(Card.Suit.SPADES, Card.Rank.TWO),
+                new Card(Card.Suit.SPADES, Card.Rank.THREE)
+        });
+        int deckSize = 3;
         System.out.println("--testDealRejectsExhaustedDeck--");
+
         for (int i= 1; i <= deckSize; i++) {
-            _deck.deal();
+            deck.deal();
         }
+
         try {
-            _deck.deal();
+            deck.deal();
             System.out.println("FAIL: Deal does not throw exception on exhausted deck");
         } catch (IllegalStateException e) {
             System.out.println("Pass: Deal throws exception on exhausted deck");

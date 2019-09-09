@@ -1,26 +1,33 @@
 package blackjack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class GameManager {
     private final static int highestScore = 21;
     private Deck deck;
-    private Player[] players;
+    private ArrayList<Player> startingPlayers;
+    private ArrayList<Player> remainingPlayers;
 
-    public GameManager(Deck deck, Player[] players) {
+    public GameManager(Deck deck, Player[] players, Dealer dealer) {
         this.deck = deck;
-        this.players = players;
+        this.startingPlayers = new ArrayList<>();
+        this.startingPlayers.addAll(Arrays.asList(players));
+        this.startingPlayers.add(dealer);
+        this.remainingPlayers = this.startingPlayers;
     }
 
     public void play() {
-        dealInitialCards(deck, players);
+        dealInitialCards(deck, startingPlayers);
 
-        for (Player p : players) {
+        for (Player p : startingPlayers) {
             takeTurn(deck, p);
         }
 
-        checkWinner(players);
+        getWinners().printWinMessage();
     }
 
-    public void dealInitialCards (Deck deck, Player[] players) {
+    public void dealInitialCards (Deck deck, ArrayList<Player> players) {
         for (Player p : players) {
             hit(deck, p);
             hit(deck, p);
@@ -55,6 +62,7 @@ public class GameManager {
             while (player.checkHit()) {
                 hit(deck, player);
                 if (isBust(player)) {
+                    remainingPlayers.remove(player);
                     player.printLoseMessage();
                     System.exit(0);
                 }
@@ -64,18 +72,27 @@ public class GameManager {
 
     }
 
-    public void checkWinner(Player[] players) {
-        int winningPlayer = 0;
+    public Player getWinners() {
 
-        for (int i = 1; i < players.length; i++) {
-            if (players[i].getScore() > players[winningPlayer].getScore()) {
-                winningPlayer = i;
-            } else if (players[i].getScore() == players[winningPlayer].getScore()) {
-                System.out.println("It's a tie!");
+        for (Player p : startingPlayers) {
+            if (remainingPlayers.contains(p) && isBust(p)) {
+                remainingPlayers.remove(p);
             }
         }
 
-        players[winningPlayer].printWinMessage();
+        int leadingPlayer = 0;
+
+        for (int i = 1; i < remainingPlayers.size(); i++) {
+            if (!isBust(remainingPlayers.get(i))) {
+                if (remainingPlayers.get(i).getScore() > remainingPlayers.get(leadingPlayer).getScore()) {
+                    leadingPlayer = i;
+                } else if (remainingPlayers.get(i).getScore() == remainingPlayers.get(leadingPlayer).getScore()) {
+                    System.out.println("It's a tie!");
+                }
+            }
+        }
+
+        return remainingPlayers.get(leadingPlayer);
     }
 
     public boolean isBust(Player player) {

@@ -82,4 +82,11 @@ public class Player {
         } while (true);
     }
 
+    public boolean equals(Player player) {
+        return this.hand.equals(player.getHand());
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
 }
