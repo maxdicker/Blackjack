@@ -19,7 +19,7 @@ public class Main {
     private static void runDeckTests() {
         var tester = new DeckTester();
 
-        tester.testDealRejectsExhaustedDeck();
+        tester.testDealThrowsExceptionWhenDeckIsEmpty();
         tester.testDealReturnsNextCard();
     }
 
@@ -35,6 +35,7 @@ public class Main {
         tester.testHitIncreasesPlayersHandSize();
         tester.testHitReducesDeckSize();
         tester.testThatBustedPlayerLoses();
+        tester.testThatBustCheckConsidersDifferentValuesForAces();
     }
 }
 

@@ -63,8 +63,7 @@ public class GameManager {
                 hit(deck, player);
                 if (isBust(player)) {
                     remainingPlayers.remove(player);
-                    player.printLoseMessage();
-                    System.exit(0);
+                    break;
                 }
                 player.printScore();
             }

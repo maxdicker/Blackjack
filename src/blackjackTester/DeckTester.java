@@ -26,24 +26,26 @@ public final class DeckTester {
         assertTrue(dealtCard.equals(aceOfSpades), "deal returns next card in deck");
     }
 
-    public void testDealRejectsExhaustedDeck() {
+    public void testDealThrowsExceptionWhenDeckIsEmpty() {
         Deck deck = new Deck(new Card[] {
                 new Card(Card.Suit.SPADES, Card.Rank.ACE),
                 new Card(Card.Suit.SPADES, Card.Rank.TWO),
                 new Card(Card.Suit.SPADES, Card.Rank.THREE)
         });
         int deckSize = 3;
-        System.out.println("--testDealRejectsExhaustedDeck--");
+        System.out.println("--testDealThrowsExceptionWhenDeckIsEmpty--");
 
         for (int i= 1; i <= deckSize; i++) {
             deck.deal();
         }
 
+        boolean thrown = false;
         try {
             deck.deal();
-            System.out.println("FAIL: Deal does not throw exception on exhausted deck");
         } catch (IllegalStateException e) {
-            System.out.println("Pass: Deal throws exception on exhausted deck");
+            thrown = true;
         }
+
+        assertTrue(thrown, "deal throws exception if deck is empty");
     }
 }

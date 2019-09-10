@@ -12,16 +12,6 @@ public final class GameManagerTester {
         }
     }
 
-    public void testCantKeepHitting(Player player) {
-        //GameManager.play();
-
-        // loop 21 times
-        // prompt player for hit or stay
-        // make player 1 hit
-        //
-        // assert that player 1 has busted
-    }
-
     public void testHitIncreasesPlayersHandSize() {
         Player player = new Player();
         Deck deck = new Deck(new Card[] {
@@ -72,4 +62,18 @@ public final class GameManagerTester {
         assertTrue(manager.getWinners().equals(dealer), "dealer should win");
     }
 
+    public void testThatBustCheckConsidersDifferentValuesForAces() {
+        Deck deck = new Deck(new Card[] {});
+        Player player = new Player();
+        Dealer dealer = new Dealer();
+        player.addToHand(new Card(Card.Suit.SPADES, Card.Rank.ACE));
+        player.addToHand(new Card(Card.Suit.CLUBS, Card.Rank.ACE));
+        player.addToHand(new Card(Card.Suit.DIAMONDS, Card.Rank.ACE));
+        player.addToHand(new Card(Card.Suit.HEARTS, Card.Rank.ACE));
+        System.out.println("--testThatBustCheckConsidersDifferentValuesForAces--");
+
+        GameManager manager = new GameManager(deck, new Player[] {player}, dealer);
+
+        assertTrue(!manager.isBust(player), "bust check considers possible values for aces");
+    }
 }
